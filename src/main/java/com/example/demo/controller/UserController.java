@@ -28,13 +28,12 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	// get all users
+	
 	@GetMapping("/users")
 	public List<User> getAllUsers(){
 		return userRepository.findAll();
 	}		
 	
-	// create user rest api
 	@PostMapping("/users")
 	public User createUser(@RequestBody User user) {
 		System.out.println(user);
@@ -44,40 +43,16 @@ public class UserController {
 		return userRepository.saveAndFlush(user);
 	}
 	
-	// get employee by id rest api
-	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Long id) {
-		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		return ResponseEntity.ok(user);
+// ResponseEntity<User>
+	@GetMapping("/users/{emailId}")
+	public ResponseEntity<User> loginValidation(@PathVariable String emailId) {
+
+		User user = userRepository.findByEmailId(emailId);
+		
+		String pass = user.getPassword();
+		System.out.println(pass);
+		
+		return ResponseEntity.ok().body(user);
 	}
-	
-	// update employee rest api
-	
-	// @PutMapping("/employees/{id}")
-	// public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
-	// 	Employee employee = employeeRepository.findById(id)
-	// 			.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
 		
-	// 	employee.setFirstName(employeeDetails.getFirstName());
-	// 	employee.setLastName(employeeDetails.getLastName());
-	// 	employee.setEmailId(employeeDetails.getEmailId());
-		
-	// 	Employee updatedEmployee = employeeRepository.save(employee);
-	// 	return ResponseEntity.ok(updatedEmployee);
-	// }
-	
-	// // delete employee rest api
-	// @DeleteMapping("/employees/{id}")
-	// public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
-	// 	Employee employee = employeeRepository.findById(id)
-	// 			.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		
-	// 	employeeRepository.delete(employee);
-	// 	Map<String, Boolean> response = new HashMap<>();
-	// 	response.put("deleted", Boolean.TRUE);
-	// 	return ResponseEntity.ok(response);
-	// }
-	
-	
 }

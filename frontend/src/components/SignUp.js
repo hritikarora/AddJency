@@ -43,13 +43,13 @@ export default class SignUp extends Component {
                 <div className="Model">
                     <h2 className="tag">Register</h2>
                     
-                    <input type="text" name="firstname" onChange={this.myChangeHandler} value={this.state.firstname} placeholder="First name" />
+                    <input type="text" name="firstname" onChange={this.myChangeHandler} value={this.state.firstname} placeholder="First name" /><br/>
                     
-                    <input type="text" name="lastname" onChange={this.myChangeHandler} value={this.state.lastname} placeholder="Last name" />
+                    <input type="text" name="lastname" onChange={this.myChangeHandler} value={this.state.lastname} placeholder="Last name" /><br/>
             
-                    <input name="email" onChange={this.myChangeHandler} value={this.state.email} type="email" placeholder="Email" />
+                    <input name="email" onChange={this.myChangeHandler} value={this.state.email} type="email" placeholder="Email" /><br/>
         
-                    <input name="password" onChange={this.myChangeHandler} value={this.state.password} type="password" placeholder="Password" />
+                    <input name="password" onChange={this.myChangeHandler} value={this.state.password} type="password" placeholder="Password" /><br/>
     
                     <input type="submit" value="Submit" className="bt" />
     

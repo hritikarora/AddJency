@@ -1,54 +1,55 @@
-import React, { Component } from "react";
+import React, {useState,useEffect,navigation } from "react";
 import "../css/login.css";
-class LoginPage extends Component {
+import axios from '../../node_modules/axios';
+import { useHistory,withRouter} from "react-router-dom";
 
-    constructor(props){
-        super(props);
-        this.state={
-            username:"",
-            password:""
-        }
-    
-        this.myChangeHandler=this.myChangeHandler.bind(this);
-        this.mySubmitHandler=this.mySubmitHandler.bind(this);
-     }
-    myChangeHandler(event)
-    {
-        let nam = event.target.name;
-        let val = event.target.value;
-        this.setState({[nam]:val})
-    }
-    mySubmitHandler(event)
-    {
-        if(this.state.username.length>0 && this.state.password.length>0)
+function LoginPage(){
+
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");    
+
+    const history = useHistory();
+
+    const handleSubmit = async () => {
+
+        const USER_API_BASE_URL = "http://localhost:8084/api/v1/users";
+      
+        const response = await axios.get(USER_API_BASE_URL + '/' + email);
+      
+        console.log(response);
+        console.log(response.data);
+        let res = response.data;
+        if(res.password == password)
         {
-    
-            this.setState({isLoggedIn:true})
-            alert("hello "+this.state.username)
+            alert("login success!");
+            setEmail("")
+            setPassword("")
+            history.push("/signup");
         }
-        
-    }
-    
-    render() {
-        return (
-            <div class="outer">
-            <form onSubmit={this.mySubmitHandler}>
-                <div className="Model">
-                    <h2 className="tag">Login</h2>
+        else{
+            alert("Incorrect credentials!")
+
+        }
+      };
+
+    return (
+        <div class="outer">
+         <form onSubmit={handleSubmit}>
+            <div className="Model">
+                <h2 className="tag">Login</h2>
                     
-                    <input name="username" onChange={this.myChangeHandler} value={this.state.username} type="email" placeholder="Email" />
+                <input name="email" type="email" value={email} onChange={(Event)=>{setEmail(Event.target.value)}} placeholder="Email" /><br/>
+                 
+                <input name="password" type="password" value={password} onChange={(Event)=>{setPassword(Event.target.value)}} placeholder="Password" /><br/>
+                   
+                <input type="submit" value="submit" className="bt" />
                     
-                    <input name="password" onChange={this.myChangeHandler} type="password" placeholder="Password" />
-                    
-                    <input type="submit" value="submit" className="bt" />
-                    
-                    <p className="forgot-password text-right">
-                        Forgot <a href="#">password?</a>
-                    </p>
-                </div>
-            </form>
+                <p style={{color:"whitesmoke"}} className="forgot-password">
+                    Forgot <a href="#">password?</a>
+                </p>
             </div>
-        );
-    }
+        </form>
+       </div>
+    );
 }
-export default LoginPage;
+export default withRouter(LoginPage);

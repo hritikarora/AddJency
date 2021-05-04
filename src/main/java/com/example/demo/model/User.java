@@ -15,6 +15,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(name="user_type")
+	private String userType;
+
+	@Column(name="company_name")
+	private String companyName;
+
 	@Column(name = "firstname")
 	private String firstName;
 
@@ -31,18 +37,31 @@ public class User {
 		
 	}
 	
-	public User(String firstname, String lastname, String email,String password) {
+	public User(String userType,String firstname, String lastname, String email,String password) {
 		super();
 		this.firstName = firstname;
 		this.lastName = lastname;
 		this.emailId = email;
 		this.password = password;
+		this.userType = userType;
 	}
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	public String getFirstName() {
 		return firstName;

@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-import "../css/login.css"
-import UserService from "../services/UserService"
+import "../css/login.css";
+import UserService from "../services/UserService";
 
 export default class SignUp extends Component {
 
     constructor(props){
         super(props);
         this.state={
+            userType:"Normal",
             email:"",
             password:"",
             firstname:"",
-            lastname:""
-
+            lastname:"",
+            companyName:""
         }
     
         this.myChangeHandler=this.myChangeHandler.bind(this);
@@ -25,13 +26,22 @@ export default class SignUp extends Component {
     }
     mySubmitHandler(event)
     {
-        if(this.state.email.length>0 && this.state.password.length>0 && this.state.firstname.length>0 && this.state.lastname.length>0)
+        if(this.state.userType==="Company")
         {
-            let user = {firstName:this.state.firstname,lastName:this.state.lastname,emailId:this.state.email,password:this.state.password};
+            if(this.state.companyName.length>0 && this.state.email.length>0 && this.state.password.length>0 && this.state.firstname.length>0 && this.state.lastname.length>0)
+            {
+                let user = {userType:this.state.userType,companyName:this.state.companyName,firstName:this.state.firstname,lastName:this.state.lastname,emailId:this.state.email,password:this.state.password};
+                console.log(user);
+                UserService.createUser(user);
+                alert("Registration successful"); 
+            }
+        }
+        else if(this.state.email.length>0 && this.state.password.length>0 && this.state.firstname.length>0 && this.state.lastname.length>0)
+        {
+            let user = {userType:this.state.userType,companyName:"",firstName:this.state.firstname,lastName:this.state.lastname,emailId:this.state.email,password:this.state.password};
             console.log(user);
             UserService.createUser(user);
             alert("Registration successful");
-            
         }
         
     }
@@ -39,9 +49,16 @@ export default class SignUp extends Component {
     render() {
         return (
             <div class="outer">
-            <form onSubmit={this.mySubmitHandler}>
-                <div className="Model">
-                    <h2 className="tag">Register</h2>
+            <form onSubmit={this.mySubmitHandler} >
+                <div className="Model-up">
+                    <h2 className="tag">Sign Up!</h2><br/>
+
+                    <select name="userType" onChange={this.myChangeHandler} value={this.state.userType} > 
+                        <option value="Normal">Normal</option>
+                        <option value="Company">Company</option>
+                    </select><br/>
+
+                    <input className={this.state.userType=="Normal"?"hidden":"0"} type="text" name="companyName" onChange={this.myChangeHandler} value={this.state.companyName} placeholder="Company name" /><br/>
                     
                     <input type="text" name="firstname" onChange={this.myChangeHandler} value={this.state.firstname} placeholder="First name" /><br/>
                     
@@ -54,7 +71,7 @@ export default class SignUp extends Component {
                     <input type="submit" value="Submit" className="bt" />
     
                     <p className="forgot-password">
-                        Already registered <a href="#">log in?</a>
+                        Already registered <a href="/">log in?</a>
                     </p>
                 </div>
             </form>

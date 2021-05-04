@@ -1,6 +1,3 @@
-# FROM openjdk:8
-# COPY target/demo-0.0.1-SNAPSHOT.war ./
-# WORKDIR ./
 FROM tomcat:latest
 LABEL maintainer="Hritik Arora"
 ADD ./target/demo-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/

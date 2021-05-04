@@ -20,7 +20,7 @@ render(){
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                 <i className="fa fa-search" style={{color:"white"}}/>
             </Form>
-            <NavLink style={{textDecoration:"none",fontSize:"20px",color: "white",margin:"5px"}} ><Link to="/signin" >Sign In</Link></NavLink>
+            <NavLink style={{textDecoration:"none",fontSize:"20px",color: "white",margin:"5px"}} ><Link to="/" >Sign In</Link></NavLink>
             <NavLink style={{textDecoration:"none",fontSize:"20px",color: "white",margin:"5px"}} ><Link to="/signup" >Sign Up</Link></NavLink>
       </Navbar.Collapse>
     </Navbar>);

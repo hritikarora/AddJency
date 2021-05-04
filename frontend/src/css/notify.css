@@ -1,0 +1,8 @@
+.inner-notify{
+    border-radius: 15px;
+    background-color: darkgoldenrod;
+    opacity: 0.5;
+    color:black;
+    padding: 10px;
+    margin: 10px;
+}

@@ -1,42 +1,32 @@
-import React, {useState,useEffect,navigation } from "react";
+import React, {useState} from "react";
 import "../css/login.css";
-import axios from '../../node_modules/axios';
-import { useHistory,withRouter} from "react-router-dom";
+import { useHistory} from "react-router-dom";
+import UserService, { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../services/UserService";
 
-function LoginPage(){
+function LoginPage(props){
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");    
 
     const history = useHistory();
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
 
-        const USER_API_BASE_URL = "http://localhost:8084/api/v1/users";
-      
-        const response = await axios.get(USER_API_BASE_URL + '/' + email);
-      
-        console.log(response);
-        console.log(response.data);
-        let res = response.data;
-        if(res.password == password)
+        if(UserService.validateUser(email,password))
         {
-            alert("login success!");
-            setEmail("")
-            setPassword("")
-            history.push("/signup");
+            alert("login success !");
+            history.push("/dashboard");
         }
         else{
-            alert("Incorrect credentials!")
-
+            alert("incorrect credentials")
         }
       };
 
     return (
-        <div class="outer">
-         <form onSubmit={handleSubmit}>
-            <div className="Model">
-                <h2 className="tag">Login</h2>
+        <div className="outer">
+         <form onSubmit={handleSubmit} >
+            <div className="Model-in">
+                <h2 className="tag">Log In!</h2>
                     
                 <input name="email" type="email" value={email} onChange={(Event)=>{setEmail(Event.target.value)}} placeholder="Email" /><br/>
                  
@@ -52,4 +42,4 @@ function LoginPage(){
        </div>
     );
 }
-export default withRouter(LoginPage);
+export default LoginPage;

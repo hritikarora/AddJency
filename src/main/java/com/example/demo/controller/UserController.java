@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
+import com.example.demo.model.Advertisement;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.AdRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -27,7 +29,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
+	@Autowired
+	private AdRepository adRepository;
 	
 	@GetMapping("/users")
 	public List<User> getAllUsers(){
@@ -36,14 +40,11 @@ public class UserController {
 	
 	@PostMapping("/users")
 	public User createUser(@RequestBody User user) {
-		System.out.println(user);
+		
 		System.out.println(user.getFirstName());
-		System.out.println(user.getLastName());
-		System.out.println(user.getEmailId());
 		return userRepository.saveAndFlush(user);
 	}
 	
-// ResponseEntity<User>
 	@GetMapping("/users/{emailId}")
 	public ResponseEntity<User> loginValidation(@PathVariable String emailId) {
 
@@ -53,6 +54,21 @@ public class UserController {
 		System.out.println(pass);
 		
 		return ResponseEntity.ok().body(user);
+	}
+
+	@PostMapping("/adv")
+	public Advertisement createAd(@RequestBody Advertisement ad)
+	{
+		System.out.println(ad.getCompanyName());
+		return adRepository.saveAndFlush(ad);
+	}
+
+	@GetMapping("/adv/{userId}")
+	public List<Advertisement> getAllAds(@PathVariable String userId){
+		long id = Long.parseLong(userId);
+		List<Advertisement> myList = adRepository.findByUserId(id);
+		System.out.println(myList);
+		return myList;
 	}
 		
 }

@@ -9,4 +9,6 @@ import com.example.demo.model.Advertisement;
 public interface AdRepository extends JpaRepository<Advertisement, Long>{
 
     public List<Advertisement> findByUserId(long userId);
+
+    public List<Advertisement> findByCompanyNameAndStatus(String companyName,String Status);
 }

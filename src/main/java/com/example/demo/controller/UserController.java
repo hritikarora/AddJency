@@ -70,5 +70,13 @@ public class UserController {
 		System.out.println(myList);
 		return myList;
 	}
+
+	@GetMapping("/adv/{companyName}/{Status}")
+	public List<Advertisement> getAllAdsByCompanyName(@PathVariable String companyName,@PathVariable String Status)
+	{
+		List<Advertisement> myList = adRepository.findByCompanyNameAndStatus(companyName,Status);
+		System.out.println(myList);
+		return myList;
+	}
 		
 }

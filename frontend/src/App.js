@@ -14,20 +14,18 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 function App()
 {
   const [isLoggedIn,setIsLoggedIn] = useState(true);
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
   const [id,setId] = useState("");
   
   return (
     <div>
       <Router> 
-
-        <Head loggedIn={isLoggedIn}/>
+        
+        <Head />
 
         <Switch>
 
           <Route path="/" exact> <LoginPage /> </Route>
-          <AuthenticatedRoute path="/dashboard" component={Dashboard}> <Dashboard /> </AuthenticatedRoute>
+          <AuthenticatedRoute path="/dashboard" id={id} component={Dashboard}> <Dashboard /> </AuthenticatedRoute>
           <Route path="/signup" exact component={SignUp}> <SignUp /> </Route>
           
         </Switch>

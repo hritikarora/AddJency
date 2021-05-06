@@ -27,14 +27,12 @@ class UserService {
 
         if(res.password == password)
         {
-            let data = {email:res.emailId, password:res.password, id:res.id , userType:res.userType};
+            console.log(res);
+            let data = {email:res.emailId, password:res.password, id:res.id , userType:res.userType, companyName:res.companyName, firstname:res.firstName, lastname:res.lastName};
             sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME,JSON.stringify(data));
             sessionStorage.setItem("id",res.id);
-            console.log(res.id);
+            console.log(JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)));
             return true;
-        }
-        else{
-            return false;
         }
       }
       isUserLoggedIn() {
@@ -56,6 +54,20 @@ class UserService {
         const USER_API_BASE_URL = "http://localhost:8084/api/v1/adv";
           
         const response = await axios.get(USER_API_BASE_URL+"/"+id);
+          
+        let list = response.data;
+        return list;
+    }
+
+    getAllAdsByCompanyName = async () => {
+        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        let cName = JSON.parse(user).companyName;
+
+        console.log(user)
+        const USER_API_BASE_URL = "http://localhost:8084/api/v1/adv";
+          
+        console.log(cName)
+        const response = await axios.get(USER_API_BASE_URL+"/"+cName+"/Pending");
           
         let list = response.data;
         return list;

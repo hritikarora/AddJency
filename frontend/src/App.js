@@ -11,6 +11,7 @@ import Head from "./components/Head";
 import Dashboard from './components/Dashboard';
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 
+
 function App()
 {
   const [isLoggedIn,setIsLoggedIn] = useState(true);
@@ -19,8 +20,6 @@ function App()
   return (
     <div>
       <Router> 
-        
-        <Head />
 
         <Switch>
 
@@ -29,9 +28,7 @@ function App()
           <Route path="/signup" exact component={SignUp}> <SignUp /> </Route>
           
         </Switch>
-
-        <Footer />
-
+        
       </Router>
     </div>
   );

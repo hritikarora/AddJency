@@ -3,7 +3,7 @@ import reactDom from 'react-dom';
 import '../css/dash.css';
 import "../../node_modules/font-awesome/css/font-awesome.min.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-
+import Head from "./Head";
 import Card from "./Card.js";
 import hin from "../images/hindu.jpg";
 import toi from "../images/toi.png";
@@ -11,6 +11,17 @@ import pat from "../images/patrika2.jpg";
 import UserService,{USER_NAME_SESSION_ATTRIBUTE_NAME} from "../services/UserService";
 import Notify from './Notify';
 import CompanyNotify from './CompanyNotify';
+import dash from "../images2/dark-dashboard.svg";
+import profile from "../images2/notification-dark.svg";
+import img1 from "../images2/notify.svg";
+import img2 from "../images2/stocks.svg";
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import {Nav,NavDropdown,Navbar,Form,FormControl, NavLink} from 'react-bootstrap';
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import {Link} from 'react-router-dom';
+import msg from "../images2/icons/Emai_nav_outlined.svg";
+
+import Charts from "./Charts";
 
 class Dashboard extends Component {
 
@@ -32,6 +43,7 @@ class Dashboard extends Component {
 
     }
     this.mySubmitHandler = this.mySubmitHandler.bind(this)
+    this.myLogoutHandler = this.myLogoutHandler.bind(this)
   }
 
   componentDidMount()
@@ -69,6 +81,12 @@ class Dashboard extends Component {
    );
   }
 
+  myLogoutHandler()
+  {
+    this.setState({isLoggedIn:false});
+    sessionStorage.clear();
+  }
+
   mySubmitHandler()
   {
     let user = JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME));
@@ -100,31 +118,87 @@ class Dashboard extends Component {
 
   return (
     this.state.userType === "Normal"?
-    <div>
-    <div class="sidebar">
-      <a name="Dashboard" class={this.state.currentPage=="Dashboard"?"active":""} onClick={this.myClickHandler}>Home</a>
-      <a name="Ad" class={this.state.currentPage=="Ad"?"active":""} onClick={this.myClickHandler} >Post an Ad</a>
-      <a name="Profile" class={this.state.currentPage=="Profile"?"active":""} onClick={this.myClickHandler} >User Profile</a>
-      <a href="#contact">Contact</a>
-      <a href="#about">About</a>
-    </div>
 
-    <div class="content">
+    <div className="out">
+
+      <div class="sidebar-wrapper">
+        <nav className="sidebar-root">
+          <header className="sidebar-logo">
+          <i style={{padding:"10px"}} className="fa fa-cube"/>
+            <span>AddJency</span>
+          </header>
+          <h5 className="sidebar-nav-title">APP</h5>
+          <ul className="sidebar-ul">
+            <li className="sidebar-li">
+              <a name="Dashboard" class={this.state.currentPage=="Dashboard"?"active":""} onClick={this.myClickHandler}>
+              <i style={{padding:"10px"}} className="fa fa-columns"/>
+                Dashboard
+              </a>
+            </li>
+            <li className="sidebar-li">
+              <a name="Ad" class={this.state.currentPage=="Ad"?"active":""} onClick={this.myClickHandler} >
+              <i style={{padding:"10px"}} className="fa fa-audio-description"/>
+                Post an Ad</a>
+            </li>
+            <li className="sidebar-li">
+              <a name="Profile" class={this.state.currentPage=="Profile"?"active":""} onClick={this.myClickHandler} >
+              <i style={{padding:"10px"}} className="fa fa-address-book"/>
+                User Profile</a>
+            </li>
+          </ul>
+          <hr></hr>
+          <ul className="sidebar-ul">
+            <li className="sidebar-li">
+              <a href="#contact">
+              <i style={{padding:"10px"}} className="fa fa-address-book"/>
+              Contact</a>
+            </li>
+            <li className="sidebar-li">
+              <a href="#about">About</a>
+            </li>
+            
+          </ul>
+        </nav>
+      </div>
+
+    <div class="layout-wrap">
+
+      <Navbar  style={{display:"flex",justifyContent:"right",backgroundColor: "rgb(50, 50, 50)",zIndex: "100",height:"76px"}} expand="lg" >
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Form inline style={{margin:"10px"}}>
+            <FormControl style={{width:"300px"}} type="text" placeholder="Search" className="mr-sm-2" />
+            <i style={{color:"white"}} className="fa fa-search"></i>
+        </Form>
+        <NavDropdown title={<img src={msg}></img>} id="basic-nav-dropdown">
+          {this.messages}
+        </NavDropdown>
+        <NavDropdown title={<span className="avatar" >H</span>} id="basic-nav-dropdown">
+          <NavDropdown.Item href="#action/3.1"><i style={{padding:"4px"}} className="fa fa-user-circle"></i>Account</NavDropdown.Item>
+          <NavDropdown.Item onClick={this.myLogoutHandler} ><i style={{padding:"4px"}} className="fa fa-sign-out"></i><Link style={{textDecoration:"none",color:"black"}} to="/" >Sign Out</Link></NavDropdown.Item>
+        </NavDropdown>  
+      </Navbar.Collapse>  
+      </Navbar>
+
+      <div className="inner-content">
       {
         this.state.currentPage==="Dashboard"
         ?
-        <div className="col-md-8 outer-div">
+        <div className="col-lg-9 outer-div">
+          
+              <Charts/>
+            
           <div className="row">
-            <Card src={toi} alt={"times of india"} title={"TOI"} onClick={(e)=>this.handleClick(e)} />
-            <Card src={pat} alt={"patrika"} title={"Patrika"} onClick={(e)=>this.handleClick(e)} />
-            <Card src={hin} alt={"hindu"} title={"The Hindu"} onClick={(e)=>this.handleClick(e)} />
+            <Card className="card" src={toi} alt={"times of india"} title={"TOI"} onClick={(e)=>this.handleClick(e)} />
+            <Card className="card" src={pat} alt={"patrika"} title={"Patrika"} onClick={(e)=>this.handleClick(e)} />
+            <Card className="card" src={hin} alt={"hindu"} title={"The Hindu"} onClick={(e)=>this.handleClick(e)} />
           </div>
         </div>
         :
         this.state.currentPage==="Ad"?
-          <div className="col-md-8 outer-div">
-              <div className="row">
-                  <div className="col-md-8">
+          <div className="col-lg-9 outer-div">
+              
+                
                       <form className="form-group" onSubmit={this.mySubmitHandler} >
                           <h2 className="heading">Post an Advertisement!</h2><br/>
   
@@ -141,11 +215,11 @@ class Dashboard extends Component {
                           <textarea type="text" name="description" onChange={this.myChangeHandler} value={this.state.description} placeholder="Description" /><br/>
                           <input type="submit" name="submit" value="submit" className="btn btn-primary" />
                       </form>
-                  </div>
-              </div>
+                  
+              
           </div>
           :
-          <div className="col-md-8 outer-div">
+          <div className="col-lg-9 outer-div">
               <div className="row">
                   <div className="col-md-8">
                       <form className="form-group" onSubmit={this.mySubmitHandler} >
@@ -159,24 +233,70 @@ class Dashboard extends Component {
               </div>
           </div>
       }
-      <div className="outer-outer">
-        <b><i>Notifications</i></b>
-          {this.state.adItems}
+      <div className="outer-outer col-lg-3">
+        <section className="inner-section">
+          <header className="section-header">Status</header>
+        {this.state.adItems}
+        </section>
+        
       </div>
 
     </div>
-    
-    </div>
-    :
-    <div>
-    <div class="sidebar">
-      <a name="Dashboard" class={this.state.currentPage=="Dashboard"?"active":""} onClick={this.myClickHandler}>Home</a>
-      <a name="Profile" class={this.state.currentPage=="Profile"?"active":""} onClick={this.myClickHandler} >User Profile</a>
-      <a href="#contact">Contact</a>
-      <a href="#about">About</a>
     </div>
 
-    <div class="content">
+    </div>
+    :
+    <div className="out">
+
+      <div class="sidebar-wrapper">
+        <nav className="sidebar-root">
+          <header className="sidebar-logo">
+          <i style={{padding:"10px"}} className="fa fa-cube"/>
+            <span>AddJency</span>
+          </header>
+          <h5 className="sidebar-nav-title">APP</h5>
+          <ul className="sidebar-ul">
+            <li className="sidebar-li">
+              <a name="Dashboard" class={this.state.currentPage=="Dashboard"?"active":""} onClick={this.myClickHandler}>
+              <i style={{padding:"10px"}} className="fa fa-columns"/>
+                Dashboard
+              </a>
+            </li>
+            <li className="sidebar-li">
+              <a name="Profile" class={this.state.currentPage=="Profile"?"active":""} onClick={this.myClickHandler} >
+              <i style={{padding:"10px"}} className="fa fa-address-book"/>
+                User Profile</a>
+            </li>
+          </ul>
+          <hr></hr>
+          <ul className="sidebar-ul">
+            <li className="sidebar-li">
+              <a href="#contact">
+              <i style={{padding:"10px"}} className="fa fa-address-book"/>
+              Contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      
+      <div className="layout-wrap">
+      <Navbar  style={{display:"flex",justifyContent:"right",backgroundColor: "rgb(50, 50, 50)",zIndex: "100",height:"76px"}} expand="lg" >
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Form inline style={{margin:"10px"}}>
+            <FormControl style={{width:"300px"}} type="text" placeholder="Search" className="mr-sm-2" />
+            <i style={{color:"white"}} className="fa fa-search"></i>
+        </Form>
+        <NavDropdown title={<img src={msg}></img>} id="basic-nav-dropdown">
+          {this.messages}
+        </NavDropdown>
+        <NavDropdown title={<span className="avatar" >H</span>} id="basic-nav-dropdown">
+          <NavDropdown.Item href="#action/3.1"><i style={{padding:"4px"}} className="fa fa-user-circle"></i>Account</NavDropdown.Item>
+          <NavDropdown.Item onClick={this.myLogoutHandler} ><i style={{padding:"4px"}} className="fa fa-sign-out"></i><Link style={{textDecoration:"none",color:"black"}} to="/" >Sign Out</Link></NavDropdown.Item>
+        </NavDropdown>  
+      </Navbar.Collapse>  
+      </Navbar>
+    <div class="inner-content">
       {
         this.state.currentPage==="Dashboard"?
 
@@ -202,7 +322,7 @@ class Dashboard extends Component {
       }
 
     </div>
-    
+    </div>
     </div>
   );
  }
